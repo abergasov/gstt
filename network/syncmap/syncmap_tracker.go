@@ -74,7 +74,7 @@ func (t *Tracker) Message(id string) (message *network.Message, err error) {
 	return nil, network.ErrMessageNotFound
 }
 
-// Messages returns messages in FIFO order
+// Messages returns all messages in the tracker
 func (t *Tracker) Messages() (messages []*network.Message) {
 	t.listMU.RLock()
 	defer t.listMU.RUnlock()

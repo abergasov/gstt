@@ -77,7 +77,7 @@ func (t *Tracker) Message(id string) (message *network.Message, err error) {
 	return nil, network.ErrMessageNotFound
 }
 
-// Messages returns messages in FIFO order
+// Messages returns all messages in the tracker.
 func (t *Tracker) Messages() (messages []*network.Message) {
 	t.listMU.Lock()
 	defer t.listMU.Unlock()
@@ -87,6 +87,7 @@ func (t *Tracker) Messages() (messages []*network.Message) {
 
 	messages = make([]*network.Message, 0, t.length)
 	for e := t.list.Front(); e != nil; e = e.Next() {
+		// unsafe cast is safe here, as only object methods work with list
 		messages = append(messages, e.Value.(*network.Message))
 	}
 	t.messages = messages
